@@ -1,0 +1,15 @@
+---
+- name: Create Avalon Group
+  group:
+    name: "{{ avalon_user.user_name }}"
+    gid: "{{ avalon_user.user_gid }}"
+    state: present
+
+- name: Create Avalon User
+  user:
+    name: "{{ avalon_user.user_name }}"
+    uid: "{{ avalon_user.user_uid }}" 
+    group: "{{ avalon_user.user_name }}"
+    home: "{{ avalon_user.user_homedir }}"
+    shell: "{{ avalon_user.user_shell }}"
+    state: present

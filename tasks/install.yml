@@ -1,0 +1,6 @@
+---
+- name: Install Gemfile Package Dependencies
+  yum:
+    name: "{{ rails_dependency_pkgs }}"
+    state: present
+    disable_excludes: all
