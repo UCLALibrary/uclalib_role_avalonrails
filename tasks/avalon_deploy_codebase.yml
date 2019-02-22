@@ -1,0 +1,90 @@
+---
+- name: Upload mod_rewrite httpd conf
+  copy: 
+    src: 10-mod_rewrite.conf
+    dest: /etc/httpd/conf.d/10-mod_rewrite.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Upload avalon auth executable
+  copy:
+    src: avalon_auth
+    dest: /usr/local/sbin/avalon_auth
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Upload avalon HTTP conf
+  template:
+    src: vhost80.conf.j2
+    dest: "/etc/httpd/vhosts.d/{{ sitename }}-http.conf"
+    owner: root
+    group: root
+    mode: 0644
+  when: not rails_env == 'production'
+
+- name: Upload avalon HTTP-redirect conf
+  template:
+    src: vhost80-redirect.conf.j2
+    dest: "/etc/httpd/vhosts.d/{{ sitename }}-http.conf"
+    owner: root
+    group: root
+    mode: 0644
+  when: rails_env == 'production'
+
+- name: Copy SSL Certificate
+  copy:
+    dest: "{{ ssl_dir }}/{{ sitename }}.crt"
+    content: ssl_crt
+    owner: root
+    group: root
+    mode: 0644
+  no_log: True
+  when: rails_env == 'production'
+  
+- name: Copy SSL Key
+  copy:
+    dest: "{{ ssl_dir }}/{{ sitename }}.key"
+    content: ssl_key
+    owner: root
+    group: root
+    mode: 0600
+  no_log: True
+  when: rails_env == 'production'
+
+- name: Copy SSL Interm
+  copy:
+    dest: "{{ ssl_dir }}/{{ sitename }}.interm"
+    content: ssl_interm
+    owner: root
+    group: root
+    mode: 0644
+  no_log: True
+  when: rails_env == 'production'
+
+- name: Upload avalon HTTPS conf
+  template:
+    src: vhost443.conf.j2
+    dest: "/etc/httpd/vhosts.d/{{ sitename }}-https.conf"
+    owner: root
+    group: root
+    mode: 0644
+  when: rails_env == 'production'
+
+- name: Download Avalon Codebase to initial location
+  git:
+    repo: https://github.com/avalonmediasystem/avalon.git
+    dest: "{{ avalon_code_path }}"
+    version: master
+
+- name: Copy avalon code into application directory
+  shell: |
+    cp -rp "{{ avalon_code_path }}"/* "{{ doc_app }}/"
+
+- name: Set permissions on application directory
+  file:
+    path: "{{ doc_app }}"
+    owner: "{{ avalon_user.user_uid }}"
+    group: "{{ avalon_user.user_gid }}"
+    recurse: yes

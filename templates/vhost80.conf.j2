@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+  ServerName {{ sitename }}
+  DocumentRoot {{ doc_root }}
+  <Directory {{ doc_app }}>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    allow from all
+  </Directory>
+  ErrorLog {{ log_dir }}/{{ sitename }}_80-error.log
+  CustomLog {{ log_dir }}/{{ sitename }}_80-access.log combined
+  ServerSignature Off
+  RailsEnv {{ rails_env }}
+</VirtualHost>

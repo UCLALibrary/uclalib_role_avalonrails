@@ -1,0 +1,6 @@
+<VirtualHost *:80>
+  ServerName {{ sitename }}
+  ErrorLog {{ log_dir }}/{{ sitename }}_80-error.log
+  CustomLog {{ log_dir }}/{{ sitename }}_80-access.log combined
+  Redirect permanent / https://{{ sitename }}
+</VirtualHost>

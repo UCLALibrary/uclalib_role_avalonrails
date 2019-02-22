@@ -1,0 +1,24 @@
+<VirtualHost *:443>
+  ServerName {{ sitename }}
+  DocumentRoot {{ doc_root }}
+  <Directory {{ doc_app }}>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride All
+    Order allow,deny
+    allow from all
+  </Directory>
+  ErrorLog {{ log_dir }}/{{ sitename }}_80-error.log
+  CustomLog {{ log_dir }}/{{ sitename }}_80-access.log combined
+  ServerSignature Off
+  RailsEnv {{ rails_env }}
+
+  SSLEngine on
+  SSLCipherSuite HIGH:!aNULL:!MD5
+  SSLProtocol All -SSLv2 -SSLv3
+  SSLHonorCipherOrder On
+  SSLCompression off
+  SSLCertificateFile {{ ssl_dir }}/{{ sitename }}.crt
+  SSLCertificateKeyFile {{ ssl_dir }}/{{ sitename }}.key
+  SSLCertificateChainFile {{ ssl_dir }}/{{ sitename }}.interm
+
+</VirtualHost>

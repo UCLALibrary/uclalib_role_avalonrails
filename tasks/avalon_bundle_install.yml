@@ -1,0 +1,4 @@
+---
+- name: Bundler install gemfile
+  shell: |
+    cd "{{ doc_app }}"; bundle install --with mysql

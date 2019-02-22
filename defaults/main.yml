@@ -1,0 +1,36 @@
+---
+avalon_user:
+  user_name: avalon
+  user_uid: 1501
+  user_gid: 1501
+  user_shell: /bin/bash
+  user_homedir: /var/www/avalon
+
+rails_dependency_pkgs:
+  - mariadb-devel
+  - cmake
+  - nodejs
+  - sqlite-devel
+  - git
+
+rails_gems:
+  - activerecord-mysql2-adapter
+  - mysql2
+  - bundler
+
+ffmpeg_path: /usr/bin/ffmpeg
+
+sitename: avalon.dev
+
+doc_root: /var/www/avalon/public
+doc_app: /var/www/avalon
+ssl_dir: /etc/httpd/pem.d
+log_dir: /etc/httpd/logs
+
+rails_env: development
+
+avalon_code_path: /opt/avalon
+
+ssl_crt: test
+ssl_key: test
+ssl_interm: test
