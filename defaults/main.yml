@@ -11,6 +11,7 @@ rails_dependency_pkgs:
   - cmake
   - nodejs
   - sqlite-devel
+  - git
 
 rails_gems:
   - activerecord-mysql2-adapter
